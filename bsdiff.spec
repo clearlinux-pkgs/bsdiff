@@ -4,7 +4,7 @@
 #
 Name     : bsdiff
 Version  : 1.0.1
-Release  : 3
+Release  : 4
 URL      : https://github.com/clearlinux/bsdiff/releases/download/v1.0.1/bsdiff-1.0.1.tar.xz
 Source0  : https://github.com/clearlinux/bsdiff/releases/download/v1.0.1/bsdiff-1.0.1.tar.xz
 Summary  : Library for bsdiff
@@ -52,6 +52,13 @@ lib components for the bsdiff package.
 %setup -q -n bsdiff-1.0.1
 
 %build
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -fno-semantic-interposition -flto -falign-functions=32 -O3 "
+export FCFLAGS="$CFLAGS -fno-semantic-interposition -flto -falign-functions=32 -O3 "
+export FFLAGS="$CFLAGS -fno-semantic-interposition -flto -falign-functions=32 -O3 "
+export CXXFLAGS="$CXXFLAGS -fno-semantic-interposition -flto -falign-functions=32 -O3 "
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
