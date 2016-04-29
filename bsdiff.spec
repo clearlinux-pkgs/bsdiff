@@ -4,7 +4,7 @@
 #
 Name     : bsdiff
 Version  : 1.0.1
-Release  : 4
+Release  : 5
 URL      : https://github.com/clearlinux/bsdiff/releases/download/v1.0.1/bsdiff-1.0.1.tar.xz
 Source0  : https://github.com/clearlinux/bsdiff/releases/download/v1.0.1/bsdiff-1.0.1.tar.xz
 Summary  : Library for bsdiff
