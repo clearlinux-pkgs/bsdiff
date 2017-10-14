@@ -4,7 +4,7 @@
 #
 Name     : bsdiff
 Version  : 1.0.2
-Release  : 9
+Release  : 10
 URL      : https://github.com/clearlinux/bsdiff/releases/download/v1.0.2/bsdiff-1.0.2.tar.xz
 Source0  : https://github.com/clearlinux/bsdiff/releases/download/v1.0.2/bsdiff-1.0.2.tar.xz
 Summary  : Library for bsdiff
@@ -12,10 +12,19 @@ Group    : Development/Tools
 License  : BSD-2-Clause
 Requires: bsdiff-bin
 Requires: bsdiff-lib
+BuildRequires : automake
+BuildRequires : automake-dev
 BuildRequires : bzip2-dev
+BuildRequires : gettext-bin
+BuildRequires : libtool
+BuildRequires : libtool-dev
+BuildRequires : m4
+BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(check)
 BuildRequires : pkgconfig(liblzma)
 BuildRequires : pkgconfig(zlib)
+BuildRequires : zopfli-dev
+Patch1: zopfli.patch
 
 %description
 This project is a forked version of BSDiff, as taken from the Chromium project
@@ -50,24 +59,30 @@ lib components for the bsdiff package.
 
 %prep
 %setup -q -n bsdiff-1.0.2
+%patch1 -p1
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-%configure --disable-static --disable-tests
+export SOURCE_DATE_EPOCH=1507948358
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+%reconfigure --disable-static --disable-tests
 make V=1  %{?_smp_mflags}
 
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
+export SOURCE_DATE_EPOCH=1507948358
 rm -rf %{buildroot}
 %make_install
 
@@ -83,9 +98,10 @@ rm -rf %{buildroot}
 %files dev
 %defattr(-,root,root,-)
 /usr/include/*.h
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libbsdiff.so
+/usr/lib64/pkgconfig/bsdiff.pc
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libbsdiff.so.1
+/usr/lib64/libbsdiff.so.1.0.0
