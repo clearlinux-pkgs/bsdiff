@@ -5,10 +5,10 @@
 %define keepstatic 1
 Name     : bsdiff
 Version  : 1.0.4
-Release  : 17
+Release  : 18
 URL      : https://github.com/clearlinux/bsdiff/releases/download/v1.0.4/bsdiff-1.0.4.tar.xz
 Source0  : https://github.com/clearlinux/bsdiff/releases/download/v1.0.4/bsdiff-1.0.4.tar.xz
-Summary  : bsdiff and bspatch are tools for building and applying patches to binary files.
+Summary  : Library for bsdiff
 Group    : Development/Tools
 License  : BSD-2-Clause
 Requires: bsdiff-bin = %{version}-%{release}
@@ -77,8 +77,9 @@ staticdev components for the bsdiff package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1557075933
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1568065848
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -90,14 +91,14 @@ export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -f
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1557075933
+export SOURCE_DATE_EPOCH=1568065848
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bsdiff
 cp COPYING %{buildroot}/usr/share/package-licenses/bsdiff/COPYING
@@ -114,7 +115,7 @@ cp COPYING %{buildroot}/usr/share/package-licenses/bsdiff/COPYING
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/bsdiff.h
 /usr/lib64/libbsdiff.so
 /usr/lib64/pkgconfig/bsdiff.pc
 
