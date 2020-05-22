@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : bsdiff
 Version  : 1.0.4
-Release  : 19
+Release  : 20
 URL      : https://github.com/clearlinux/bsdiff/releases/download/v1.0.4/bsdiff-1.0.4.tar.xz
 Source0  : https://github.com/clearlinux/bsdiff/releases/download/v1.0.4/bsdiff-1.0.4.tar.xz
 Summary  : Library for bsdiff
