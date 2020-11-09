@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : bsdiff
 Version  : 1.0.4
-Release  : 20
+Release  : 21
 URL      : https://github.com/clearlinux/bsdiff/releases/download/v1.0.4/bsdiff-1.0.4.tar.xz
 Source0  : https://github.com/clearlinux/bsdiff/releases/download/v1.0.4/bsdiff-1.0.4.tar.xz
 Summary  : Library for bsdiff
@@ -72,20 +72,21 @@ staticdev components for the bsdiff package.
 
 %prep
 %setup -q -n bsdiff-1.0.4
+cd %{_builddir}/bsdiff-1.0.4
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568065848
+export SOURCE_DATE_EPOCH=1604904310
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 %configure  --disable-tests
 make  %{?_smp_mflags}
@@ -95,13 +96,13 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1568065848
+export SOURCE_DATE_EPOCH=1604904310
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bsdiff
-cp COPYING %{buildroot}/usr/share/package-licenses/bsdiff/COPYING
+cp %{_builddir}/bsdiff-1.0.4/COPYING %{buildroot}/usr/share/package-licenses/bsdiff/d12260c3adb41cb31e2fc1a41ca84ac7c523beef
 %make_install
 
 %files
@@ -126,7 +127,7 @@ cp COPYING %{buildroot}/usr/share/package-licenses/bsdiff/COPYING
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/bsdiff/COPYING
+/usr/share/package-licenses/bsdiff/d12260c3adb41cb31e2fc1a41ca84ac7c523beef
 
 %files staticdev
 %defattr(-,root,root,-)
