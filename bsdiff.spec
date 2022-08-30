@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : bsdiff
-Version  : 1.0.5
-Release  : 22
-URL      : https://github.com/clearlinux/bsdiff/archive/refs/tags/v1.0.5.tar.gz
-Source0  : https://github.com/clearlinux/bsdiff/archive/refs/tags/v1.0.5.tar.gz
+Version  : 1.0.6
+Release  : 23
+URL      : https://github.com/clearlinux/bsdiff/archive/refs/tags/v1.0.6.tar.gz
+Source0  : https://github.com/clearlinux/bsdiff/archive/refs/tags/v1.0.6.tar.gz
 Summary  : Library for bsdiff
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -71,15 +71,15 @@ staticdev components for the bsdiff package.
 
 
 %prep
-%setup -q -n bsdiff-1.0.5
-cd %{_builddir}/bsdiff-1.0.5
+%setup -q -n bsdiff-1.0.6
+cd %{_builddir}/bsdiff-1.0.6
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1661822655
+export SOURCE_DATE_EPOCH=1661869981
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -99,7 +99,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1661822655
+export SOURCE_DATE_EPOCH=1661869981
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bsdiff
 cp %{_builddir}/bsdiff-%{version}/COPYING %{buildroot}/usr/share/package-licenses/bsdiff/d12260c3adb41cb31e2fc1a41ca84ac7c523beef || :
