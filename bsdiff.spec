@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : bsdiff
-Version  : 1.0.4
-Release  : 21
-URL      : https://github.com/clearlinux/bsdiff/releases/download/v1.0.4/bsdiff-1.0.4.tar.xz
-Source0  : https://github.com/clearlinux/bsdiff/releases/download/v1.0.4/bsdiff-1.0.4.tar.xz
+Version  : 1.0.5
+Release  : 22
+URL      : https://github.com/clearlinux/bsdiff/archive/refs/tags/v1.0.5.tar.gz
+Source0  : https://github.com/clearlinux/bsdiff/archive/refs/tags/v1.0.5.tar.gz
 Summary  : Library for bsdiff
 Group    : Development/Tools
 License  : BSD-2-Clause
@@ -71,24 +71,24 @@ staticdev components for the bsdiff package.
 
 
 %prep
-%setup -q -n bsdiff-1.0.4
-cd %{_builddir}/bsdiff-1.0.4
+%setup -q -n bsdiff-1.0.5
+cd %{_builddir}/bsdiff-1.0.5
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1604904310
+export SOURCE_DATE_EPOCH=1661822655
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-%configure  --disable-tests
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
+%autogen  --disable-tests
 make  %{?_smp_mflags}
 
 %check
@@ -99,10 +99,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1604904310
+export SOURCE_DATE_EPOCH=1661822655
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bsdiff
-cp %{_builddir}/bsdiff-1.0.4/COPYING %{buildroot}/usr/share/package-licenses/bsdiff/d12260c3adb41cb31e2fc1a41ca84ac7c523beef
+cp %{_builddir}/bsdiff-%{version}/COPYING %{buildroot}/usr/share/package-licenses/bsdiff/d12260c3adb41cb31e2fc1a41ca84ac7c523beef || :
 %make_install
 
 %files
