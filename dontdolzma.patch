@@ -1,0 +1,46 @@
+we don't want to generate new diffs with lzma as we're phasing that out as soon as possible
+... but we need to still support the reverse for some time
+
+
+--- bsdiff-1.0.6/src/diff.c~	2022-08-30 14:30:34.000000000 +0000
++++ bsdiff-1.0.6/src/diff.c	2024-03-29 19:04:55.824025054 +0000
+@@ -297,38 +297,8 @@
+ 	/* xz/lzma are slower on decompression, but esp for bigger files, compress better */
+ 	pthread_mutex_lock(&lzma_mutex);
+ 	lzma_len = source_len + 1000;
+-	lzma = malloc(lzma_len);
+ 	lzma_pos = 0;
+-
+-	/* Equivalent to the options used by xz -9 -e. */
+-	/*
+-	 * We'd like to set LZMA_CHECK_NONE, since we do our own sha based checksum at the end.
+-	 * However, that seems to generate undecodable compressed blocks, so we'll just do the
+-	 * smallest and cheapest alternative to _NONE, which is CRC32
+-	 */
+-	lzma_ck = LZMA_CHECK_CRC32;
+-	if (!lzma_check_is_supported(lzma_ck)) {
+-		lzma_ck = LZMA_CHECK_CRC32;
+-	}
+-	lzma_err = lzma_easy_buffer_encode(9 | LZMA_PRESET_EXTREME,
+-					   lzma_ck, NULL,
+-					   source, source_len,
+-					   lzma, &lzma_pos, lzma_len);
+-	if (lzma_err == LZMA_OK) {
+-		xz_size = lzma_pos;
+-		if (1.01 * lzma_pos + 64 < *buf_len &&
+-		    (enc == BSDIFF_ENC_ANY || enc == BSDIFF_ENC_XZ)) {
+-			smallest = BSDIFF_ENC_XZ;
+-			*buf = lzma;
+-			*buf_len = lzma_pos;
+-		} else {
+-			free(lzma);
+-			lzma = NULL;
+-		}
+-	} else if (lzma_err == LZMA_BUF_ERROR) {
+-		free(lzma);
+-		lzma = NULL;
+-	}
++	lzma = NULL;
+ 
+ 	pthread_mutex_unlock(&lzma_mutex);
+ #endif /* BSDIFF_WITH_LZMA */
