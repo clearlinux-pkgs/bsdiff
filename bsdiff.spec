@@ -8,7 +8,7 @@
 %define keepstatic 1
 Name     : bsdiff
 Version  : 1.0.6
-Release  : 25
+Release  : 26
 URL      : https://github.com/clearlinux/bsdiff/archive/refs/tags/v1.0.6.tar.gz
 Source0  : https://github.com/clearlinux/bsdiff/archive/refs/tags/v1.0.6.tar.gz
 Summary  : Library for bsdiff
@@ -25,6 +25,7 @@ BuildRequires : pkgconfig(zlib)
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
+Patch1: dontdolzma.patch
 
 %description
 This project is a forked version of BSDiff, as taken from the Chromium project
@@ -80,6 +81,7 @@ staticdev components for the bsdiff package.
 %prep
 %setup -q -n bsdiff-1.0.6
 cd %{_builddir}/bsdiff-1.0.6
+%patch -P 1 -p1
 pushd ..
 cp -a bsdiff-1.0.6 buildavx2
 popd
@@ -89,7 +91,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1712245234
+export SOURCE_DATE_EPOCH=1712251482
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -142,7 +144,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1712245234
+export SOURCE_DATE_EPOCH=1712251482
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/bsdiff
 cp %{_builddir}/bsdiff-%{version}/COPYING %{buildroot}/usr/share/package-licenses/bsdiff/d12260c3adb41cb31e2fc1a41ca84ac7c523beef || :
